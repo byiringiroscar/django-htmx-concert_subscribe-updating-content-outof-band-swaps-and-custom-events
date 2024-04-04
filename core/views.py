@@ -17,3 +17,11 @@ def subscribe(request, pk):
         'event': event
     }
     return render(request, 'core/partials/user_li.html', context)
+
+def unsubscribe(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.users.remove(request.user)
+    context = {
+        'event': event
+    }
+    return render(request, 'core/partials/userlist.html', context)
