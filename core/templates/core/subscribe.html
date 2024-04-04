@@ -2,6 +2,28 @@
 
 {% block content %}
 
-  {{ event }}
+<div class="grid grid-cols-2 gap-4 items-center">
+    <div class="text-center">
+        <h1 class="font-medium leading-tight text-5xl mt-0 mb-2 text-blue-600">
+            {{ event.name }}
+        </h1>
+        <p id="event-count" class="text-sm text-purple-800 mb-6">
+            {{ event.users.count }} people attending
+        </p>
+        <p>{% lorem %}</p>
+
+    </div>
+    <div class="flex flex-col justify-center items-center">
+        <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-blue-600">
+            Attendees
+        </h3>
+        <ul id="userlist" class="list-disc">
+            {% for user in event.users.all %}
+                <li>{{ user.username }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
 
 {% endblock %}
