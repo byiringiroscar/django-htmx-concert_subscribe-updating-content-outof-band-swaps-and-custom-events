@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from core.models import Event
+from django_htmx.http import trigger_client_event
 
 # Create your views here.
 def event_detail(request, pk):
@@ -16,7 +17,9 @@ def subscribe(request, pk):
     context = {
         'event': event
     }
-    return render(request, 'core/partials/user_li.html', context)
+    response =  render(request, 'core/partials/user_li.html', context)
+    trigger_client_event(response, 'subscribe', {})
+    return response
 
 def unsubscribe(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -24,4 +27,16 @@ def unsubscribe(request, pk):
     context = {
         'event': event
     }
-    return render(request, 'core/partials/userlist.html', context)
+    response = render(request, 'core/partials/userlist.html', context)
+    trigger_client_event(response, 'subscribe', {})
+    return response
+
+
+def count(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    count = event.users.count()
+    context = {
+        'event': event,
+        'count': count
+    }
+    return render(request, 'core/partials/event_count.html', context)

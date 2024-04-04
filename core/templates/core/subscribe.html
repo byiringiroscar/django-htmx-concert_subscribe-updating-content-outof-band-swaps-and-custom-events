@@ -7,7 +7,11 @@
         <h1 class="font-medium leading-tight text-5xl mt-0 mb-2 text-blue-600">
             {{ event.name }}
         </h1>
-        <p id="event-count" class="text-sm text-purple-800 mb-6">
+        <p id="event-count" class="text-sm text-purple-800 mb-6"
+        hx-get="{% url 'count' event.pk %}"
+        hx-trigger="subscribe from:body"
+        hx-swap="outerHTML"
+        >
             {{ event.users.count }} people attending
         </p>
         <p>{% lorem %}</p>
